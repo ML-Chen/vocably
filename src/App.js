@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Speech from 'speak-tts'
 
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -33,11 +33,12 @@ class App extends React.Component {
   }
   
   render() {
-    for (let i = 0; i < 10; i++) {
-      this.randomKey(this.vocabDict)
-        .then(key => this.speech.speak({ text: key }))
-        .then(_ => this.speech.speak({ text: this.vocabDict[key] }))
-        .catch(error => { console.log(error) })
+    for (let i = 0; i < 100; i++) {
+      (async () => {
+        const key = await this.randomKey(this.vocabDict)
+        await this.speech.speak({ text: key })
+        await this.speech.speak({ text: this.vocabDict[key] })
+      })()
     }
 
     return (
