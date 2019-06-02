@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import Speech from 'speak-tts'
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -18,8 +22,8 @@ class App extends Component {
       console.log("Speech synthesis supported by browser")
     this.speech.init().then(data => {
       console.log("Speech is ready, voices are available", data)
-    }).catch(e => {
-      console.log("An error occurred while initializing: ", e)
+    }).catch(err => {
+      console.log("An error occurred while initializing: ", err)
     })
   }
 
@@ -37,6 +41,8 @@ class App extends Component {
       (async () => {
         const key = await this.randomKey(this.vocabDict)
         await this.speech.speak({ text: key })
+        await console.log(i**2)
+        await sleep(500)
         await this.speech.speak({ text: this.vocabDict[key] })
       })()
     }
