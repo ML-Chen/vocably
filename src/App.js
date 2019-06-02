@@ -1,9 +1,29 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 import Speech from 'speak-tts'
+import fs from 'fs'
+import * as Papa from 'papaparse'
 
-function sleep(ms) {
+const vocabDict = {
+  "hi": "hello",
+  "now": "newt",
+  "yo": "what",
+  "阿姨": "maternal aunt",
+  "爱心": "compassion"
+}
+const speech = new Speech()
+
+const sleep = ms => {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const randomKey = dict => {
+  return new Promise((resolve, reject) => {
+    const keys = Object.keys(dict)
+    if (keys === null || keys === [])
+      reject(new Error("Keys is null or empty"))
+    resolve(keys[keys.length * Math.random() << 0])
+  })
 }
 
 class App extends Component {
@@ -12,38 +32,22 @@ class App extends Component {
     this.state = {
       play: true
     }
-    this.vocabDict = {
-      "hi": "hello",
-      "now": "newt",
-      "yo": "what"
-    }
-    this.speech = new Speech()
-    if (this.speech.hasBrowserSupport())
+    if (speech.hasBrowserSupport())
       console.log("Speech synthesis supported by browser")
-    this.speech.init().then(data => {
+    speech.init().then(data => {
       console.log("Speech is ready, voices are available", data)
     }).catch(err => {
       console.log("An error occurred while initializing: ", err)
-    })
-  }
-
-  randomKey = dict => {
-    return new Promise((resolve, reject) => {
-      const keys = Object.keys(dict)
-      if (keys === null || keys === [])
-        reject(new Error("Keys is null or empty"))
-      resolve(keys[keys.length * Math.random() << 0])
     })
   }
   
   render() {
     for (let i = 0; i < 100; i++) {
       (async () => {
-        const key = await this.randomKey(this.vocabDict)
-        await this.speech.speak({ text: key })
-        await console.log(i**2)
+        const key = await randomKey(vocabDict)
+        await speech.speak({ text: key })
         await sleep(500)
-        await this.speech.speak({ text: this.vocabDict[key] })
+        await speech.speak({ text: vocabDict[key] })
       })()
     }
 
