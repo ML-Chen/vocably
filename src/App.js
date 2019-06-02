@@ -24,21 +24,20 @@ class App extends React.Component {
   }
 
   randomKey = dict => {
-    const keys = Object.keys(dict) // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
-    return keys[keys.length * Math.random() << 0]
+    return new Promise((resolve, reject) => {
+      const keys = Object.keys(dict)
+      if (keys === null || keys === [])
+        reject(new Error("Keys is null or empty"))
+      resolve(keys[keys.length * Math.random() << 0])
+    })
   }
   
   render() {
-    while (this.state.play) {
-      (async () => {
-        const randomKey = randomKey(this.vocabDict)
-        await this.speech.speak({
-          text: randomKey
-        })
-        await this.speech.speak({
-          text: this.vocabDict[randomKey]
-        })
-      })();
+    for (let i = 0; i < 10; i++) {
+      this.randomKey(this.vocabDict)
+        .then(key => this.speech.speak({ text: key }))
+        .then(_ => this.speech.speak({ text: this.vocabDict[key] }))
+        .catch(error => { console.log(error) })
     }
 
     return (
