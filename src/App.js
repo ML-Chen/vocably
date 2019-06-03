@@ -6,8 +6,8 @@ import * as Papa from 'papaparse'
 
 const speech = new Speech()
 let vocabDict = {
-  "whoa": "hello",
-  "now": "newt",
+  "whoa": "aight",
+  "mow": "newt",
   "yo": "what",
   "crow": "pigeon",
   "dough": "money"
@@ -51,20 +51,27 @@ class App extends Component {
       console.log("An error occurred while initializing: ", err)
     })
   }
+
+  speak = async () => {
+    while (this.state.play) {
+      const key = await randomKey(vocabDict)
+      await speech.speak({
+        text: key,
+        listeners: {
+          onend: () => {}
+        }
+      })
+      await speech.speak({
+        text: vocabDict[key],
+        listeners: {
+          onend: () => {}
+        }
+      })
+    }
+  }
   
   render() {
-    for (let i = 0; i < 100; i++) {
-      (async () => {
-        const key = await randomKey(vocabDict)
-        await console.log(i)
-        await console.log(i*i)
-        // await speech.speak({ text: key })
-        // TODO: set TTS language so that it can read Chinese text
-        // TODO: figure out why nothing else in the loop runs after the first speech.speak
-        // await sleep(500)
-        await speech.speak({ text: vocabDict[key] })
-      })()
-    }
+    this.speak()
 
     return (
       <div className="App">
