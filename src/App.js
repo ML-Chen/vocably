@@ -3,6 +3,7 @@ import './App.css'
 import Speech from 'speak-tts'
 import * as fs from 'browserify-fs'
 import * as Papa from 'papaparse'
+import * as path from 'path'
 
 const speech = new Speech()
 let vocabDict = {
@@ -12,17 +13,19 @@ let vocabDict = {
   "crow": "pigeon",
   "dough": "money"
 }
-// const file = fs.createReadStream("HSK 5.csv")
-// let count = 0 // cache the running count
-// Papa.parse(file, {
-//   worker: true, // Don't bog down the main thread if it's a big file
-//   step: result => {
-//     vocabDict = result
-//   },
-//   complete: (results, file) => {
-//     console.log('parsing complete read', count, 'records.'); 
-//   }
-// })
+console.log(process.cwd())
+console.log(__dirname)
+const file = fs.createReadStream(__dirname + "/src/hsk5.csv", "utf8")
+let count = 0 // cache the running count
+Papa.parse(file, {
+  worker: true, // Don't bog down the main thread if it's a big file
+  step: result => {
+    vocabDict = result
+  },
+  complete: (results, file) => {
+    console.log('parsing complete read', count, 'records.'); 
+  }
+})
 
 const sleep = ms => {
   return new Promise(resolve => setTimeout(resolve, ms));
