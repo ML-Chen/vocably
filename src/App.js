@@ -36,6 +36,7 @@ class App extends Component {
   speak = async () => {
     while (this.state.play) {
       const item = await randomItem(hsk5)
+      await this.setState({ item })
       await speech.setLanguage('zh')
       await speech.setRate(0.75)
       await speech.speak({
@@ -47,7 +48,7 @@ class App extends Component {
         text: item.Hanzi,
         listeners: { onend: () => {} }
       })
-      await speech.setRate(0.5)
+      await speech.setRate(0.75)
       await speech.setLanguage('en-US')
       await speech.speak({
         text: item.Pinyin,
@@ -76,6 +77,13 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1>Not Glossika</h1>
+          {this.state.item &&
+            <div>
+              <p>{this.state.item.Hanzi}</p>
+              <p>{this.state.item.Pinyin}</p>
+              <p>{this.state.item.English}</p>
+            </div>
+          }
         </header>
       </div>
     );
