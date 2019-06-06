@@ -1,42 +1,19 @@
 import React, { Component } from 'react'
 import './App.css'
 import Speech from 'speak-tts'
-import * as fs from 'browserify-fs'
-import * as Papa from 'papaparse'
-import * as path from 'path'
+import hsk5 from './hsk5.js'
 
 const speech = new Speech()
-let vocabDict = {
-  "whoa": "aight",
-  "mow": "newt",
-  "yo": "what",
-  "crow": "pigeon",
-  "dough": "money"
-}
-console.log(process.cwd())
-console.log(__dirname)
-const file = fs.createReadStream(__dirname + "/src/hsk5.csv", "utf8")
-let count = 0 // cache the running count
-Papa.parse(file, {
-  worker: true, // Don't bog down the main thread if it's a big file
-  step: result => {
-    vocabDict = result
-  },
-  complete: (results, file) => {
-    console.log('parsing complete read', count, 'records.'); 
-  }
-})
 
 const sleep = ms => {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const randomKey = dict => {
+const randomItem = list => {
   return new Promise((resolve, reject) => {
-    const keys = Object.keys(dict)
-    if (keys === null || keys === [])
+    if (list === null || list === [])
       reject(new Error("Keys is null or empty"))
-    resolve(keys[keys.length * Math.random() << 0])
+    resolve(list[list.length * Math.random() << 0])
   })
 }
 
@@ -44,6 +21,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      item: null,
       play: true
     }
     if (speech.hasBrowserSupport())
@@ -57,19 +35,37 @@ class App extends Component {
 
   speak = async () => {
     while (this.state.play) {
-      const key = await randomKey(vocabDict)
+      const item = await randomItem(hsk5)
+      await speech.setLanguage('zh')
+      await speech.setRate(0.75)
       await speech.speak({
-        text: key,
-        listeners: {
-          onend: () => {}
-        }
+        text: item.Hanzi,
+        listeners: { onend: () => {} }
       })
+      await speech.setRate(0.5)
       await speech.speak({
-        text: vocabDict[key],
-        listeners: {
-          onend: () => {}
-        }
+        text: item.Hanzi,
+        listeners: { onend: () => {} }
       })
+      await speech.setRate(0.5)
+      await speech.setLanguage('en-US')
+      await speech.speak({
+        text: item.Pinyin,
+        listeners: { onend: () => {} }
+      })
+      await speech.setRate(1)
+      await speech.setLanguage('en-US')
+      await speech.speak({
+        text: item.English,
+        listeners: { onend: () => {} }
+      })
+      await speech.setLanguage('zh')
+      await speech.setRate(0.5)
+      await speech.speak({
+        text: item.Hanzi,
+        listeners: { onend: () => {} }
+      })
+      await sleep(750)
     }
   }
   
