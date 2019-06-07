@@ -1,10 +1,12 @@
 .App {
+  background-color: #282c34;
   text-align: center;
 }
 
 .App-header {
-  background-color: #282c34;
-  max-width: 70em;
+  margin: auto;
+  max-width: calc(100% - .5rem);
+  width: 60rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -28,9 +30,8 @@ p {
 }
 
 table {
-  max-width: calc(100% - .3rem);
+  max-width: calc(100% - .5rem);
   width: 60rem;
-  table-layout: fixed;
 }
 
 th, td {

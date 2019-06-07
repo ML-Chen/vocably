@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Speech from 'speak-tts'
 import hsk5 from './hsk5.js'
+import hsk56 from './hsk5+6.js'
 
 const speech = new Speech()
 
@@ -67,14 +68,15 @@ class App extends Component {
 
   speakLoop = async (progress = -1) => {
     let item
-    console.log("speakLoop called")
 
     while (true) {
       if (progress === -1 || !this.state.item) {
-        item = await randomItem(hsk5)
+        item = await randomItem(hsk56)
         await this.setState({ item })
         let rows = this.state.rows
         rows.unshift(item)
+        if (rows.length > 100)
+          rows.pop()
         await this.setState({ rows })
       } else {
         item = this.state.item
@@ -89,7 +91,27 @@ class App extends Component {
       }
 
       if (progress <= 1) {
-        await this.speak(item.Hanzi, 0.5)
+        if (navigator.userAgent.includes("Android")) {
+          await this.speak(item.Pinyin
+            .replace(/bi\b/g, 'bee')
+            .replace(/pi\b/g, 'pee')
+            .replace('ca', 'tsa')
+            .replace('you', 'yo')
+            .replace('rou', 'row')
+            .replace('yun', 'yoon')
+            .replace('tou', 'tow')
+            .replace('zh', 'j')
+            .replace(/he\b/g, 'her')
+            .replace(/ui/g, 'way')
+            .replace(/ei\b/g, 'ay')
+            .replace(/([jqx])ao/g, /\1i-ao/)
+            .replace(/([jqx])iang/g, /\1i-ang/)
+            .replace(/([jqx])iu/g, /\1i-o/)
+            .replace(/([jqx])ue/g, /\1u-e/)
+          , 0.75, 'en-UK')
+        } else {
+          await this.speak(item.Pinyin.replace(' ', '. '), 0.75, 'en-UK')
+        }
       }
       if (!this.state.play) {
         this.setState({ progress: 2 })
@@ -98,15 +120,7 @@ class App extends Component {
       }
 
       if (progress <= 2) {
-        if (navigator.userAgent.includes("Android")) {
-          await this.speak(item.Pinyin
-            .replace(/(c(?!h))/g, 'ts')
-            .replace(/(z(?!h))/g, 'dz')
-            .replace('you', 'yo')
-          , 0.75, 'en-UK')
-        } else {
-          await this.speak(item.Pinyin.replace(' ', '. '), 0.75, 'en-UK')
-        }
+        await this.speak(item.Hanzi, 0.5, 'zh')
       }
       if (!this.state.play) {
         this.setState({ progress: 3 })
