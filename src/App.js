@@ -33,12 +33,26 @@ class App extends Component {
     })
   }
 
+  togglePause = state => {
+    console.log(speech.paused())
+    if (state.play) {
+      speech.pause()
+      speech.cancel()
+      this.setState({ play: false })
+    }
+    else {
+      speech.resume()
+      this.setState({ play: true })
+    }
+    console.log(speech.paused())
+  }
+
   componentDidMount() {
     const speak = async () => {
-      while (this.state.play) {
+      while (true) {
         const item = await randomItem(hsk5)
         await this.setState({ item })
-        await speech.setLanguage('zh')
+        await speech.setLanguage('zh-CN')
         await speech.setRate(0.75)
         await speech.speak({
           text: item.Hanzi,
@@ -61,7 +75,7 @@ class App extends Component {
           text: item.English,
           listeners: { onend: () => {} }
         })
-        await speech.setLanguage('zh')
+        await speech.setLanguage('zh-CN')
         await speech.setRate(0.5)
         await speech.speak({
           text: item.Hanzi,
@@ -85,6 +99,7 @@ class App extends Component {
               <p>{this.state.item.English}</p>
             </div>
           }
+          <button onClick={() => this.togglePause(this.state)}>Play/Pause</button>
         </header>
       </div>
     );
