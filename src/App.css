@@ -28,7 +28,9 @@ p {
 }
 
 table {
+  max-width: calc(100% - .3rem);
   width: 60rem;
+  table-layout: fixed;
 }
 
 th, td {

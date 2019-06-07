@@ -99,7 +99,11 @@ class App extends Component {
 
       if (progress <= 2) {
         if (navigator.userAgent.includes("Android")) {
-          await this.speak(item.Pinyin.replace(/(c(?!h))/g, 'ts'), 0.75, 'en-UK')
+          await this.speak(item.Pinyin
+            .replace(/(c(?!h))/g, 'ts')
+            .replace(/(z(?!h))/g, 'dz')
+            .replace('you', 'yo')
+          , 0.75, 'en-UK')
         } else {
           await this.speak(item.Pinyin.replace(' ', '. '), 0.75, 'en-UK')
         }
@@ -150,6 +154,11 @@ class App extends Component {
           <button onClick={this.resume}>Resume</button>
 
           <table>
+            {/* <colgroup>
+              <col style={{width: "4em"}} />
+              <col class={{width: "0em"}} />
+              <col class={{width: "50em"}} />
+            </colgroup> */}
             <tr key="header">
               <th>Hanzi</th>
               <th>Pinyin</th>
