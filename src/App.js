@@ -33,54 +33,55 @@ class App extends Component {
     })
   }
 
-  speak = async () => {
-    while (this.state.play) {
-      const item = await randomItem(hsk5)
-      await this.setState({ item })
-      await speech.setLanguage('zh')
-      await speech.setRate(0.75)
-      await speech.speak({
-        text: item.Hanzi,
-        listeners: { onend: () => {} }
-      })
-      await speech.setRate(0.5)
-      await speech.speak({
-        text: item.Hanzi,
-        listeners: { onend: () => {} }
-      })
-      await speech.setRate(0.75)
-      await speech.setLanguage('en-US')
-      await speech.speak({
-        text: item.Pinyin,
-        listeners: { onend: () => {} }
-      })
-      await speech.setRate(1)
-      await speech.setLanguage('en-US')
-      await speech.speak({
-        text: item.English,
-        listeners: { onend: () => {} }
-      })
-      await speech.setLanguage('zh')
-      await speech.setRate(0.5)
-      await speech.speak({
-        text: item.Hanzi,
-        listeners: { onend: () => {} }
-      })
-      await sleep(750)
+  componentDidMount() {
+    const speak = async () => {
+      while (this.state.play) {
+        const item = await randomItem(hsk5)
+        await this.setState({ item })
+        await speech.setLanguage('zh')
+        await speech.setRate(0.75)
+        await speech.speak({
+          text: item.Hanzi,
+          listeners: { onend: () => {} }
+        })
+        await speech.setRate(0.5)
+        await speech.speak({
+          text: item.Hanzi,
+          listeners: { onend: () => {} }
+        })
+        await speech.setRate(0.75)
+        await speech.setLanguage('en-US')
+        await speech.speak({
+          text: item.Pinyin,
+          listeners: { onend: () => {} }
+        })
+        await speech.setRate(1)
+        await speech.setLanguage('en-US')
+        await speech.speak({
+          text: item.English,
+          listeners: { onend: () => {} }
+        })
+        await speech.setLanguage('zh')
+        await speech.setRate(0.5)
+        await speech.speak({
+          text: item.Hanzi,
+          listeners: { onend: () => {} }
+        })
+        await sleep(750)
+      }
     }
+    speak()
   }
   
   render() {
-    this.speak()
-
     return (
       <div className="App">
         <header className="App-header">
           <h1>Not Glossika</h1>
           {this.state.item &&
             <div>
-              <p>{this.state.item.Hanzi}</p>
-              <p>{this.state.item.Pinyin}</p>
+              <p className="Hanzi">{this.state.item.Hanzi}</p>
+              <p>{this.state.item.Pinyin.replace(/\./g, '')}</p>
               <p>{this.state.item.English}</p>
             </div>
           }
