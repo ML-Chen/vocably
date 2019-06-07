@@ -34,19 +34,16 @@ class App extends Component {
     })
   }
 
-  resume = () => {
-    if (!this.state.play) {
-      this.setState({ play: true })
-      speech.resume()
-      this.speak(this.state.progress)
-    }
+  resume = async () => {
+    await this.setState({ play: true })
+    speech.resume()
+    await this.speakLoop(this.state.progress)
   }
 
   pause = () => {
-    if (this.state.play) {
-      this.setState({ play: false })
-      speech.pause()
-    }
+    this.setState({ play: false })
+    // speech.pause()
+    speech.cancel()
   }
 
   /**
@@ -69,8 +66,9 @@ class App extends Component {
 
   speakLoop = async (progress = -1) => {
     let item
+    console.log("speakLoop called")
 
-    while (this.state.play) {
+    while (true) {
       if (progress === -1 || !this.state.item) {
         item = await randomItem(hsk5)
         await this.setState({ item })
@@ -82,7 +80,7 @@ class App extends Component {
         await this.speak(item.Hanzi, 0.75, 'zh')
       }
       if (!this.state.play) {
-        await this.setState({ progress: 0 })
+        this.setState({ progress: 1 })
         break
       }
 
@@ -90,19 +88,20 @@ class App extends Component {
         await this.speak(item.Hanzi, 0.5)
       }
       if (!this.state.play) {
-        await this.setState({ progress: 1 })
+        this.setState({ progress: 2 })
+        console.log(this.state.progress)
         break
       }
 
       if (progress <= 2) {
-        await this.speak(item.Pinyin, 0.75, 'en-UK')
-        // if (navigator.userAgent.includes("Android"))
-        //   await speech.speak({
-        //     text: item.Pinyin // replace c with ts
-        //   })
+        if (navigator.userAgent.includes("Android")) {
+          await this.speak(item.Pinyin.replace(/(c(?!h))/g, 'ts'), 0.75, 'en-UK')
+        } else {
+          await this.speak(item.Pinyin, 0.75, 'en-UK')
+        }
       }
       if (!this.state.play) {
-        await this.setState({ progress: 2 })
+        this.setState({ progress: 3 })
         break
       }
 
@@ -110,7 +109,7 @@ class App extends Component {
         await this.speak(item.English, 1, 'en-US')
       }
       if (!this.state.play) {
-        await this.setState({ progress: 3 })
+        this.setState({ progress: 4 })
         break
       }
 
