@@ -317,7 +317,7 @@ export default [
     {
       "Hanzi": "不好意思",
       "Pinyin": "bu4. hao3. yi4. si5",
-      "English": "to feel embarrassed; to be ill at ease; to find it embarrassing (to do sth)"
+      "English": "to feel embarrassed; to be ill at ease; to find it embarrassing (to do something)"
     },
     {
       "Hanzi": "不免",
@@ -382,7 +382,7 @@ export default [
     {
       "Hanzi": "参与",
       "Pinyin": "can1. yu4",
-      "English": "to participate (in sth)"
+      "English": "to participate (in something)"
     },
     {
       "Hanzi": "餐厅",
@@ -727,7 +727,7 @@ export default [
     {
       "Hanzi": "传递",
       "Pinyin": "chuan2. di4",
-      "English": "to transmit; to pass on to sb else"
+      "English": "to transmit; to pass on to somebody else"
     },
     {
       "Hanzi": "传染",
@@ -827,12 +827,12 @@ export default [
     {
       "Hanzi": "促使",
       "Pinyin": "cu4. shi3",
-      "English": "to induce; to promote; to urge; to impel; to bring about; to provoke; to drive (sb to do sth); to catalyze; to actuate; to contribute to (some development)"
+      "English": "to induce; to promote; to urge; to impel; to bring about; to provoke; to drive (somebody to do something); to catalyze; to actuate; to contribute to (some development)"
     },
     {
       "Hanzi": "催",
       "Pinyin": "cui1",
-      "English": "to urge; to press; to prompt; to rush sb; to hasten sth; to expedite"
+      "English": "to urge; to press; to prompt; to rush somebody; to hasten something; to expedite"
     },
     {
       "Hanzi": "存",
@@ -887,7 +887,7 @@ export default [
     {
       "Hanzi": "打招呼",
       "Pinyin": "da3. zhao1. hu5",
-      "English": "to greet sb by word or action; to give prior notice"
+      "English": "to greet somebody by word or action; to give prior notice"
     },
     {
       "Hanzi": "大方",
@@ -1057,7 +1057,7 @@ export default [
     {
       "Hanzi": "递",
       "Pinyin": "di4",
-      "English": "to hand over; to pass on sth; to gradually increase or decrease; progressively"
+      "English": "to hand over; to pass on something; to gradually increase or decrease; progressively"
     },
     {
       "Hanzi": "地道",
@@ -1202,7 +1202,7 @@ export default [
     {
       "Hanzi": "对于",
       "Pinyin": "dui4. yu2",
-      "English": "regarding; as far as sth is concerned; with regards to"
+      "English": "regarding; as far as something is concerned; with regards to"
     },
     {
       "Hanzi": "吨",
@@ -1452,7 +1452,7 @@ export default [
     {
       "Hanzi": "扶",
       "Pinyin": "fu2",
-      "English": "to support with hand; to help sb up; to help"
+      "English": "to support with hand; to help somebody up; to help"
     },
     {
       "Hanzi": "幅",
@@ -1642,7 +1642,7 @@ export default [
     {
       "Hanzi": "更加",
       "Pinyin": "geng4. jia1",
-      "English": "more (than sth else); even more"
+      "English": "more (than something else); even more"
     },
     {
       "Hanzi": "公布",
@@ -1867,7 +1867,7 @@ export default [
     {
       "Hanzi": "广场",
       "Pinyin": "guang3. chang3",
-      "English": "a public square (eg Tiananmen Square); plaza; 個|个"
+      "English": "a public square (such as Tiananmen Square); plaza; 個|个"
     },
     {
       "Hanzi": "广大",
@@ -2427,7 +2427,7 @@ export default [
     {
       "Hanzi": "讲究",
       "Pinyin": "jiang3. jiu5",
-      "English": "to pay particular attention to; exquisite; aesthetic"
+      "English": "to pay particular attention to; exquisite; aesomethingetic"
     },
     {
       "Hanzi": "讲座",
@@ -2492,7 +2492,7 @@ export default [
     {
       "Hanzi": "教训",
       "Pinyin": "jiao4. xun5",
-      "English": "a lesson; a moral; to chide sb; to lecture sb"
+      "English": "a lesson; a moral; to chide somebody; to lecture somebody"
     },
     {
       "Hanzi": "接触",
@@ -2502,7 +2502,7 @@ export default [
     {
       "Hanzi": "接待",
       "Pinyin": "jie1. dai4",
-      "English": "to receive (a visitor); to admit (allow sb to enter)"
+      "English": "to receive (a visitor); to admit (allow somebody to enter)"
     },
     {
       "Hanzi": "接近",
@@ -2512,7 +2512,7 @@ export default [
     {
       "Hanzi": "接着",
       "Pinyin": "jie1. zhe5",
-      "English": "to catch and hold on; to continue; to go on to do sth; to follow; to carry on; then; after that; subsequently; to proceed; to ensue; in turn; in one's turn"
+      "English": "to catch and hold on; to continue; to go on to do something; to follow; to carry on; then; after that; subsequently; to proceed; to ensue; in turn; in one's turn"
     },
     {
       "Hanzi": "阶段",
@@ -2782,12 +2782,12 @@ export default [
     {
       "Hanzi": "开心",
       "Pinyin": "kai1. xin1",
-      "English": "to feel happy; to rejoice; to have a great time; to make fun of sb"
+      "English": "to feel happy; to rejoice; to have a great time; to make fun of somebody"
     },
     {
       "Hanzi": "砍",
       "Pinyin": "kan3",
-      "English": "to chop; to cut down; to throw sth at sb"
+      "English": "to chop; to cut down; to throw something at somebody"
     },
     {
       "Hanzi": "看不起",
@@ -3047,7 +3047,7 @@ export default [
     {
       "Hanzi": "利益",
       "Pinyin": "li4. yi4",
-      "English": "benefit; (in sb's) interest; 個|个"
+      "English": "benefit; (in somebody's) interest; 個|个"
     },
     {
       "Hanzi": "利用",
@@ -3092,7 +3092,7 @@ export default [
     {
       "Hanzi": "临时",
       "Pinyin": "lin2. shi2",
-      "English": "at the instant sth happens; temporary; interim; ad hoc"
+      "English": "at the instant something happens; temporary; interim; ad hoc"
     },
     {
       "Hanzi": "铃",
@@ -3307,7 +3307,7 @@ export default [
     {
       "Hanzi": "面临",
       "Pinyin": "mian4. lin2",
-      "English": "to face sth; to be confronted with"
+      "English": "to face something; to be confronted with"
     },
     {
       "Hanzi": "苗条",
@@ -3402,7 +3402,7 @@ export default [
     {
       "Hanzi": "某",
       "Pinyin": "mou3",
-      "English": "some; a certain; sb or sth indefinite; such-and-such"
+      "English": "some; a certain; somebody or something indefinite; such-and-such"
     },
     {
       "Hanzi": "目标",
@@ -3477,7 +3477,7 @@ export default [
     {
       "Hanzi": "念",
       "Pinyin": "nian4",
-      "English": "to read; to study (a degree course); to read aloud; to miss (sb); idea; remembrance; twenty (banker's anti-fraud numeral corresponding to 廿, 20)"
+      "English": "to read; to study (a degree course); to read aloud; to miss (somebody); idea; remembrance; twenty (banker's anti-fraud numeral corresponding to 廿, 20)"
     },
     {
       "Hanzi": "宁可",
@@ -3937,7 +3937,7 @@ export default [
     {
       "Hanzi": "确定",
       "Pinyin": "que4. ding4",
-      "English": "definite; certain; fixed; to fix (on sth); to determine; to be sure; to ensure; to make certain; to ascertain; to clinch; to recognize; to confirm; OK (on computer dialog box)"
+      "English": "definite; certain; fixed; to fix (on something); to determine; to be sure; to ensure; to make certain; to ascertain; to clinch; to recognize; to confirm; OK (on computer dialog box)"
     },
     {
       "Hanzi": "确认",
@@ -4147,7 +4147,7 @@ export default [
     {
       "Hanzi": "上当",
       "Pinyin": "shang4. dang4",
-      "English": "taken in (by sb's deceit); to be fooled; to be duped"
+      "English": "taken in (by somebody's deceit); to be fooled; to be duped"
     },
     {
       "Hanzi": "勺子",
@@ -4167,7 +4167,7 @@ export default [
     {
       "Hanzi": "舍不得",
       "Pinyin": "she3. bu5. de5",
-      "English": "to hate to do sth; to hate to part with; to begrudge"
+      "English": "to hate to do something; to hate to part with; to begrudge"
     },
     {
       "Hanzi": "设备",
@@ -4522,7 +4522,7 @@ export default [
     {
       "Hanzi": "说服",
       "Pinyin": "shuo1. fu2",
-      "English": "to persuade; to convince; to talk sb over; Taiwan pr. shui4 fu2"
+      "English": "to persuade; to convince; to talk somebody over; Taiwan pr. shui4 fu2"
     },
     {
       "Hanzi": "撕",
@@ -4977,7 +4977,7 @@ export default [
     {
       "Hanzi": "委屈",
       "Pinyin": "wei3. qu1",
-      "English": "to feel wronged; to nurse a grievance; to cause sb to feel wronged"
+      "English": "to feel wronged; to nurse a grievance; to cause somebody to feel wronged"
     },
     {
       "Hanzi": "委托",
@@ -5592,7 +5592,7 @@ export default [
     {
       "Hanzi": "一旦",
       "Pinyin": "yi2. dan4",
-      "English": "in case (sth happens); if; once (sth happens, then...); when; in a short time; in one day"
+      "English": "in case (something happens); if; once (something happens, then...); when; in a short time; in one day"
     },
     {
       "Hanzi": "一路平安",
@@ -5622,7 +5622,7 @@ export default [
     {
       "Hanzi": "疑问",
       "Pinyin": "yi2. wen4",
-      "English": "a question; sth not understood; to query; interrogative (gramm.); 個|个"
+      "English": "a question; something not understood; to query; interrogative (gramm.); 個|个"
     },
     {
       "Hanzi": "乙",
@@ -5922,7 +5922,7 @@ export default [
     {
       "Hanzi": "责备",
       "Pinyin": "ze2. bei4",
-      "English": "to blame; to criticize sb"
+      "English": "to blame; to criticize somebody"
     },
     {
       "Hanzi": "摘",
@@ -5962,7 +5962,7 @@ export default [
     {
       "Hanzi": "掌握",
       "Pinyin": "zhang3. wo4",
-      "English": "to grasp (often fig.); to master; to know well; to understand sth well and know how to use it; fluency; to control; to seize (initiative, opportunity, destiny)"
+      "English": "to grasp (often fig.); to master; to know well; to understand something well and know how to use it; fluency; to control; to seize (initiative, opportunity, destiny)"
     },
     {
       "Hanzi": "账户",
@@ -6297,7 +6297,7 @@ export default [
     {
       "Hanzi": "装",
       "Pinyin": "zhuang1",
-      "English": "adornment; to adorn; dress; clothing; costume (of an actor in a play); to play a role; to pretend; to install; to fix; to wrap (sth in a bag); to load; to pack"
+      "English": "adornment; to adorn; dress; clothing; costume (of an actor in a play); to play a role; to pretend; to install; to fix; to wrap (something in a bag); to load; to pack"
     },
     {
       "Hanzi": "装饰",
@@ -6372,7 +6372,7 @@ export default [
     {
       "Hanzi": "自豪",
       "Pinyin": "zi4. hao2",
-      "English": "(feel a sense of) pride; to be proud of sth (in a good way)"
+      "English": "(feel a sense of) pride; to be proud of something (in a good way)"
     },
     {
       "Hanzi": "自觉",
@@ -6492,7 +6492,7 @@ export default [
     {
       "Hanzi": "作为",
       "Pinyin": "zuo4. wei2",
-      "English": "one's conduct; deed; activity; accomplishment; achievement; to act as; as (in the capacity of); qua; to view as; to look upon (sth as); to take sth to be"
+      "English": "one's conduct; deed; activity; accomplishment; achievement; to act as; as (in the capacity of); qua; to view as; to look upon (something as); to take something to be"
     },
     {
       "Hanzi": "作文",
