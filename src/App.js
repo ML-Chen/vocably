@@ -23,7 +23,8 @@ class App extends Component {
     this.state = {
       item: null,
       play: true,
-      progress: 0 // number representing what line to continue with speaking after paused
+      progress: 0, // number representing what line to continue with speaking after paused
+      rows: [] // lists previously said words
     }
     if (speech.hasBrowserSupport())
       console.log("Speech synthesis supported by browser")
@@ -72,6 +73,9 @@ class App extends Component {
       if (progress === -1 || !this.state.item) {
         item = await randomItem(hsk5)
         await this.setState({ item })
+        let rows = this.state.rows
+        rows.unshift(item)
+        await this.setState({ rows })
       } else {
         item = this.state.item
       }
@@ -97,7 +101,7 @@ class App extends Component {
         if (navigator.userAgent.includes("Android")) {
           await this.speak(item.Pinyin.replace(/(c(?!h))/g, 'ts'), 0.75, 'en-UK')
         } else {
-          await this.speak(item.Pinyin, 0.75, 'en-UK')
+          await this.speak(item.Pinyin.replace(' ', '. '), 0.75, 'en-UK')
         }
       }
       if (!this.state.play) {
@@ -138,12 +142,27 @@ class App extends Component {
           {this.state.item &&
             <div>
               <p lang="zh-han" className="Hanzi">{this.state.item.Hanzi}</p>
-              <p>{this.state.item.Pinyin.replace(/\./g, '')}</p>
+              <p>{this.state.item.Pinyin}</p>
               <p>{this.state.item.English}</p>
             </div>
           }
           <button onClick={this.pause}>Pause</button>
           <button onClick={this.resume}>Resume</button>
+
+          <table>
+            <tr key="header">
+              <th>Hanzi</th>
+              <th>Pinyin</th>
+              <th>English</th>
+            </tr>
+            {this.state.rows.map(obj => (
+              <tr key={obj.Hanzi}>
+                {Object.keys(obj).map(key => (
+                  <td>{obj[key]}</td>
+                ))}
+              </tr>
+            ))}
+          </table>
         </header>
       </div>
     );
