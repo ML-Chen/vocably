@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import Speech from 'speak-tts'
-import hsk5 from './hsk5.js'
+// import hsk5 from './hsk5.js'
 import hsk56 from './hsk5+6.js'
 
 const speech = new Speech()
@@ -104,10 +104,11 @@ class App extends Component {
             .replace(/he\b/g, 'her')
             .replace(/ui/g, 'way')
             .replace(/ei\b/g, 'ay')
-            .replace(/([jqx])ao/g, /\1i-ao/)
-            .replace(/([jqx])iang/g, /\1i-ang/)
-            .replace(/([jqx])iu/g, /\1i-o/)
-            .replace(/([jqx])ue/g, /\1u-e/)
+            .replace(/([jqx])ao/g, /$1i-ao/)
+            .replace(/([jqx])iang/g, /$1i-ang/)
+            .replace(/([jqx])iu/g, /$1i-o/)
+            .replace(/([jqx])ue/g, /$1u-e/)
+            .replace('lie', 'li-eh')
           , 0.75, 'en-UK')
         } else {
           await this.speak(item.Pinyin.replace(' ', '. '), 0.75, 'en-UK')
@@ -178,8 +179,8 @@ class App extends Component {
               <th>Pinyin</th>
               <th>English</th>
             </tr>
-            {this.state.rows.map(obj => (
-              <tr key={obj.Hanzi}>
+            {this.state.rows.map((obj, i) => (
+              <tr key={obj.Hanzi + (this.state.rows.length - i)}>
                 {Object.keys(obj).map(key => (
                   <td>{obj[key]}</td>
                 ))}
