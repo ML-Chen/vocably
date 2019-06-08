@@ -4,8 +4,10 @@ import Speech from 'speak-tts'
 // import hsk5 from './hsk5.js'
 import hsk56 from './hsk5+6.js'
 import AWS from 'aws-sdk'
+import awsconfig from './awsconfig.js'
 
 const speech = new Speech()
+AWS.config.update(awsconfig)
 const polly = new AWS.Polly()
 let availableVoices = []
 
@@ -93,7 +95,7 @@ class App extends Component {
       `<speak>${text}</speak>`
     await polly.synthesizeSpeech({
       OutputFormat: 'mp3',
-      Text: SSML,
+      Text: "SSML",
       VoiceId: language.includes('zh') ? "Zhiyu" : "Ivy"
     })
   }
@@ -134,6 +136,8 @@ class App extends Component {
     }
     
     switch (progress) {
+      case -1:
+        break
       case 0:
         await this.speak(item.Hanzi, 0.75, 'zh')
         break
@@ -171,11 +175,14 @@ class App extends Component {
       case 4:
         await this.speak(item.Hanzi, 0.5, 'zh-CN')
         await sleep(500)
+        break
+      default:
+        console.log("speakLoop called with invalid number (not in [-1, 4]")
     }
 
     await this.setState({ progress })
     if (this.state.play)
-      await this.speakIter(progress === 4 ? -1 : progress + 1)
+      await this.speakLoop(progress === 4 ? -1 : progress + 1)
   }
 
   componentDidMount() {
@@ -197,23 +204,20 @@ class App extends Component {
           <button onClick={this.resume}>Resume</button>
 
           <table>
-            {/* <colgroup>
-              <col style={{width: "4em"}} />
-              <col class={{width: "0em"}} />
-              <col class={{width: "50em"}} />
-            </colgroup> */}
-            <tr key="header">
-              <th>Hanzi</th>
-              <th>Pinyin</th>
-              <th>English</th>
-            </tr>
-            {this.state.rows.map((obj, i) => (
-              <tr key={obj.Hanzi + (this.state.rows.length - i)}>
-                {Object.keys(obj).map(key => (
-                  <td>{obj[key]}</td>
-                ))}
+            <tbody>
+              <tr key="header">
+                <th>Hanzi</th>
+                <th>Pinyin</th>
+                <th>English</th>
               </tr>
-            ))}
+              {this.state.rows.map((obj, i) => (
+                <tr key={obj.Hanzi + (this.state.rows.length - i)}>
+                  {Object.keys(obj).map(key => (
+                    <td key={key}>{obj[key]}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
           </table>
         </header>
       </div>

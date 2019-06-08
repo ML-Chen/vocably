@@ -1,4 +1,19 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Install Node dependencies:
+
+```
+npm install
+```
+
+Set up an AWS account and enter your the following info into an `src/awsconfig.js` file:
+```javascript
+export default { "accessKeyId": <your_access_key>, "secretAccessKey": <your_secret_access_key>, "region": "us-east-1" }
+```
+
+To launch the app, run
+
+```sh
+npm start
+```
 
 ## Available Scripts
 
