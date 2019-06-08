@@ -113,33 +113,34 @@ class App extends Component {
     }
   }
 
+  /**
+   * Speaks the "line" within `item` indicated by `progress`, and then if `this.state.play` is true, calls itself to speak the next line.
+   * 
+   * @param {number} [progress] - a number within [-1, 4]. By default, -1.
+   */
   speakLoop = async (progress = -1) => {
     let item
 
-    while (true) {
-      if (progress === -1 || !this.state.item) {
-        item = await randomItem(hsk56)
-        await this.setState({ item })
-        let rows = this.state.rows
-        rows.unshift(item)
-        if (rows.length > 100)
-          rows.pop()
-        await this.setState({ rows })
-      } else {
-        item = this.state.item
-      }
-
-      if (progress <= 0) {
+    if (progress === -1 || !this.state.item) {
+      item = await randomItem(hsk56)
+      await this.setState({ item })
+      let rows = this.state.rows
+      rows.unshift(item)
+      if (rows.length > 100)
+        rows.pop()
+      await this.setState({ rows })
+    } else {
+      item = this.state.item
+    }
+    
+    switch (progress) {
+      case 0:
         await this.speak(item.Hanzi, 0.75, 'zh')
-      }
-      if (!this.state.play) {
-        this.setState({ progress: 1 })
         break
-      }
-
-      if (progress <= 1) {
+      case 1:
         if (navigator.userAgent.includes("Android")) {
           await this.speak(item.Pinyin
+            .replace(' ', '. ')
             .replace(/bi\b/g, 'bee')
             .replace(/pi\b/g, 'pee')
             .replace('ca', 'tsa')
@@ -160,41 +161,21 @@ class App extends Component {
         } else {
           await this.speak(item.Pinyin.replace(' ', '. '), 0.75, 'en-UK')
         }
-      }
-      if (!this.state.play) {
-        this.setState({ progress: 2 })
-        console.log(this.state.progress)
         break
-      }
-
-      if (progress <= 2) {
+      case 2:
         await this.speak(item.Hanzi, 0.5, 'zh')
-      }
-      if (!this.state.play) {
-        this.setState({ progress: 3 })
         break
-      }
-
-      if (progress <= 3) {
+      case 3:
         await this.speak(item.English, 1, 'en-US')
-      }
-      if (!this.state.play) {
-        this.setState({ progress: 4 })
         break
-      }
-
-      if (progress <= 4) {
+      case 4:
         await this.speak(item.Hanzi, 0.5, 'zh-CN')
-      }
-      if (!this.state.play) {
-        await this.setState({ progress: -1 })
-        break
-      }
-
-      progress = -1
-
-      await sleep(750)
+        await sleep(500)
     }
+
+    await this.setState({ progress })
+    if (this.state.play)
+      await this.speakIter(progress === 4 ? -1 : progress + 1)
   }
 
   componentDidMount() {
