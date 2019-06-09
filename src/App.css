@@ -5,7 +5,7 @@
 
 .App-header {
   margin: auto;
-  max-width: calc(100% - .5rem);
+  max-width: calc(100% - 1rem);
   width: 60rem;
   min-height: 100vh;
   display: flex;
@@ -30,7 +30,7 @@ p {
 }
 
 table {
-  max-width: calc(100% - .5rem);
+  max-width: calc(100% - 1rem);
   width: 60rem;
 }
 

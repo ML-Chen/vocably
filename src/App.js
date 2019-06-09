@@ -108,7 +108,7 @@ class App extends Component {
   // }
 
   speakPolly = async (text) => {
-    await kathy.Speak(text)
+    await kathy.SpeakWithPromise(text)
   }
 
   /**
@@ -151,6 +151,7 @@ class App extends Component {
         break
       case 0:
         await this.speak(item.Hanzi, 0.75, 'zh')
+        await sleep(500)
         break
       case 1:
         // if (navigator.userAgent.includes("Android")) {
@@ -179,7 +180,6 @@ class App extends Component {
         break
       case 2:
         await this.speak(item.Hanzi, 0.5, 'zh')
-        await sleep(500)
         break
       case 3:
         await this.speak(item.English, 1, 'en-US')
