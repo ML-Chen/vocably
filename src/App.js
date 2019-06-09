@@ -5,11 +5,18 @@ import Speech from 'speak-tts'
 import hsk56 from './hsk5+6.js'
 import AWS from 'aws-sdk'
 import awsconfig from './awsconfig.js'
+import ChattyKathy from './ChattyKathy.js'
 
 const speech = new Speech()
 AWS.config.update(awsconfig)
 const polly = new AWS.Polly()
 let availableVoices = []
+const kathy = ChattyKathy({
+  awsCredentials: new AWS.Credentials(awsconfig.accessKeyId, awsconfig.secretAccessKey),
+  awsRegion: awsconfig.region,
+  pollyVoiceId: "Zhiyu",
+  cacheSpeech: true
+})
 
 const sleep = ms => {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -82,22 +89,26 @@ class App extends Component {
     })
   }
 
-  /**
-   * Speaks the given text using Amazon Polly. Assumes that the language is either Chinese (contains 'zh') or otherwise English.
-   * 
-   * @param {string} text
-   * @param {number} [rate] - e.g., 0.5 speaks at 50% the speed.
-   * @param {string} [language] - e.g., 'zh-CN', 'en-US'
-   */
-  speakPolly = async (text, rate, language) => {
-    text = rate ?
-      `<speak><prosody rate="${rate * 100 << 0}%">${text}</prosody></speak>` :
-      `<speak>${text}</speak>`
-    await polly.synthesizeSpeech({
-      OutputFormat: 'mp3',
-      Text: "SSML",
-      VoiceId: language.includes('zh') ? "Zhiyu" : "Ivy"
-    })
+  // /**
+  //  * Speaks the given text using Amazon Polly. Assumes that the language is either Chinese (contains 'zh') or otherwise English.
+  //  * 
+  //  * @param {string} text
+  //  * @param {number} [rate] - e.g., 0.5 speaks at 50% the speed.
+  //  * @param {string} [language] - e.g., 'zh-CN', 'en-US'
+  //  */
+  // speakPolly = async (text, rate, language) => {
+  //   text = rate ?
+  //     `<speak><prosody rate="${rate * 100 << 0}%">${text}</prosody></speak>` :
+  //     `<speak>${text}</speak>`
+  //   await polly.synthesizeSpeech({
+  //     OutputFormat: 'mp3',
+  //     Text: "SSML",
+  //     VoiceId: language.includes('zh') ? "Zhiyu" : "Ivy"
+  //   })
+  // }
+
+  speakPolly = async (text) => {
+    await kathy.Speak(text)
   }
 
   /**
@@ -142,32 +153,33 @@ class App extends Component {
         await this.speak(item.Hanzi, 0.75, 'zh')
         break
       case 1:
-        if (navigator.userAgent.includes("Android")) {
-          await this.speak(item.Pinyin
-            .replace(' ', '. ')
-            .replace(/bi\b/g, 'bee')
-            .replace(/pi\b/g, 'pee')
-            .replace('ca', 'tsa')
-            .replace('you', 'yo')
-            .replace('rou', 'row')
-            .replace('yun', 'yoon')
-            .replace('tou', 'tow')
-            .replace('zh', 'j')
-            .replace(/he\b/g, 'her')
-            .replace(/ui/g, 'way')
-            .replace(/ei\b/g, 'ay')
-            .replace(/([jqx])ao/g, /$1i-ao/)
-            .replace(/([jqx])iang/g, /$1i-ang/)
-            .replace(/([jqx])iu/g, /$1i-o/)
-            .replace(/([jqx])ue/g, /$1u-e/)
-            .replace('lie', 'li-eh')
-          , 0.75, 'en-UK')
-        } else {
-          await this.speak(item.Pinyin.replace(' ', '. '), 0.75, 'en-UK')
-        }
+        // if (navigator.userAgent.includes("Android")) {
+        //   await this.speak(item.Pinyin
+        //     .replace(' ', '. ')
+        //     .replace(/bi\b/g, 'bee')
+        //     .replace(/pi\b/g, 'pee')
+        //     .replace('ca', 'tsa')
+        //     .replace('you', 'yo')
+        //     .replace('rou', 'row')
+        //     .replace('yun', 'yoon')
+        //     .replace('tou', 'tow')
+        //     .replace('zh', 'j')
+        //     .replace(/he\b/g, 'her')
+        //     .replace(/ui/g, 'way')
+        //     .replace(/ei\b/g, 'ay')
+        //     .replace(/([jqx])ao/g, /$1i-ao/)
+        //     .replace(/([jqx])iang/g, /$1i-ang/)
+        //     .replace(/([jqx])iu/g, /$1i-o/)
+        //     .replace(/([jqx])ue/g, /$1u-e/)
+        //     .replace('lie', 'li-eh')
+        //   , 0.75, 'en-UK')
+        // } else {
+        //   await this.speak(item.Pinyin.replace(' ', '. '), 0.75, 'en-UK')
+        // }
         break
       case 2:
         await this.speak(item.Hanzi, 0.5, 'zh')
+        await sleep(500)
         break
       case 3:
         await this.speak(item.English, 1, 'en-US')
