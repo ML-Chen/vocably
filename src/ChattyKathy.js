@@ -134,11 +134,18 @@ export default function ChattyKathy(settings) {
         if (localPlaylist === null) {
             localPlaylist = [];
             localPlaylist.push(record);
-        }else{
+        } else{
             localPlaylist.push(record);
-
         }
-        localStorage.setItem("chattyKathyDictionary", JSON.stringify(localPlaylist));
+        try {
+            localStorage.setItem("chattyKathyDictionary", JSON.stringify(localPlaylist));
+        } catch (e) {
+            if (e.code == 22) {
+                // Local storage full
+                kathy.ForgetCachedSpeech()
+                localStorage.setItem("chattyKathyDictionary", JSON.stringify(localPlaylist));
+            }
+        }
     }
 
     // Check local cache for audio clip
