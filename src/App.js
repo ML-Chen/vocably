@@ -33,17 +33,20 @@ class App extends Component {
     super(props)
     this.state = {
       item: null, // object (Hanzi, Pinyin, and English) from hsk5+6.js
-      play: true,
+      play: false,
       progress: 0, // what "line" within the object to say next
       rows: [], // list of previously said words
       usePolly: true // whether to use Polly or browser TTS for hanzi
     }
     if (speech.hasBrowserSupport())
       console.log("Speech synthesis supported by browser")
-    speech.init().then(data => {
+    speech.init({
+      'lang': 'en-US',
+      'volume': 0.75
+    }).then(data => {
       console.log("Speech is ready, voices are available", data)
     }).catch(err => {
-      console.log("An error occurred while initializing: ", err)
+      console.log("An error occurred while initializing native speech synthesis: ", err)
     })
   }
 
@@ -64,13 +67,13 @@ class App extends Component {
    * 
    * @param {string} text
    * @param {number} [rate] - e.g., 0.5 speaks at 50% the speed.
-   * @param {string} [language] - e.g., 'zh-CN', 'en-US'
+   * @param {number} [volume] - e.g., 0.5 speaks at 50% the normal speed.
    */
-  speakBrowser = async (text, rate, language) => {
-    if (language)
-      await speech.setLanguage(language)
+  speakBrowser = async (text, rate, volume) => {
     if (rate)
       await speech.setRate(rate)
+    if (volume)
+      await speech.setVolume(volume)
     await speech.speak({
       text,
       listeners: { onend: () => {} }
@@ -100,21 +103,6 @@ class App extends Component {
   }
 
   /**
-   * Speaks the text with the given rate and language, using Polly if the given language is Chinese, and using the Browser TTS if otherwise. For browser TTS, the rate and language is *set*, so it will be what is used by any subsequent browser TTS calls.
-   * 
-   * @param {string} text
-   * @param {number} [rate] - e.g., 0.5 speaks at 50% the speed.
-   * @param {string} [language] - e.g., 'zh-CN', 'en-US'
-   */
-  speak = async (text, rate, language) => {
-    if (language.includes('zh')) {
-      await this.speakPolly(text, rate, language)
-    } else {
-      await this.speakBrowser(text, rate, language)
-    }
-  }
-
-  /**
    * Speaks the "line" within `item` indicated by `progress`, and then if `this.state.play` is true, calls itself to speak the next line.
    * 
    * @param {number} [progress] - a number within [-1, 3]. By default, -1.
@@ -125,34 +113,36 @@ class App extends Component {
     if (progress === -1 || !this.state.item) {
       item = await randomItem(hsk56)
       await this.setState({ item })
-      let rows = this.state.rows
-      rows.unshift(item)
-      if (rows.length > 100)
-        rows.pop()
-      await this.setState({ rows })
     } else {
       item = this.state.item
     }
     
-    switch (progress) {
-      case -1:
-        break
-      case 0:
-        await this.speak(item.Hanzi, 0.75, 'zh')
-        await sleep(500)
-        break
-      case 1:
-        await this.speak(item.Hanzi, 0.5, 'zh')
-        break
-      case 2:
-        await this.speak(item.English, 1, 'en-US')
-        break
-      case 3:
-        await this.speak(item.Hanzi, 0.5, 'zh-CN')
-        await sleep(500)
-        break
-      default:
-        console.log("speakLoop called with invalid number (not in [-1, 3]")
+    if (this.state.play) {
+      switch (progress) {
+        case -1:
+          break
+        case 0:
+          await this.speakPolly(item.Hanzi)
+          await sleep(500)
+          break
+        case 1:
+          await this.speakPolly(item.Hanzi)
+          break
+        case 2:
+          await this.speakBrowser(item.English)
+          break
+        case 3:
+          await this.speakPolly(item.Hanzi)
+          await sleep(500)
+          let rows = this.state.rows
+          rows.unshift(item)
+          if (rows.length > 100)
+            rows.pop()
+          await this.setState({ rows })
+          break
+        default:
+          console.log("speakLoop called with invalid number (not in [-1, 3]")
+      }
     }
 
     await this.setState({ progress })
@@ -161,7 +151,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.speakLoop()
+    this.speakLoop(0)
   }
   
   render() {
@@ -175,8 +165,7 @@ class App extends Component {
               <p>{this.state.item.English}</p>
             </div>
           }
-          <button onClick={this.pause}>Pause</button>
-          <button onClick={this.resume}>Resume</button>
+          <button onClick={this.resume}>Play</button><button onClick={this.pause}>Pause</button>
 
           <table>
             <tbody>

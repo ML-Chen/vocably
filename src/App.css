@@ -38,3 +38,15 @@ th, td {
   text-align: left;
   padding-right: .5em;
 }
+
+button {
+  font: inherit;
+  height: 1.5em;
+  font-size: 1.5em;
+  background: none;
+  color: #61dafb;
+  border: none;
+  padding: 0!important;
+  cursor: pointer;
+  text-decoration: underline;
+}
