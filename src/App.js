@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
 import Speech from 'speak-tts'
-// import hsk5 from './hsk5.js'
 import hsk56 from './hsk5+6.js'
 import AWS from 'aws-sdk'
 import awsconfig from './awsconfig.js'
@@ -9,8 +8,6 @@ import ChattyKathy from './ChattyKathy.js'
 
 const speech = new Speech()
 AWS.config.update(awsconfig)
-const polly = new AWS.Polly()
-let availableVoices = []
 const kathy = ChattyKathy({
   awsCredentials: new AWS.Credentials(awsconfig.accessKeyId, awsconfig.secretAccessKey),
   awsRegion: awsconfig.region,
@@ -35,11 +32,11 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      item: null, // object from hsk5+6.js
+      item: null, // object (Hanzi, Pinyin, and English) from hsk5+6.js
       play: true,
-      progress: 0, // basically whether to say the hanzi, pinyin, or English next
+      progress: 0, // what "line" within the object to say next
       rows: [], // list of previously said words
-      usePolly: true // whether to use Polly for hanzi. Browser TTS will still be used for English.
+      usePolly: true // whether to use Polly or browser TTS for hanzi
     }
     if (speech.hasBrowserSupport())
       console.log("Speech synthesis supported by browser")
@@ -48,15 +45,6 @@ class App extends Component {
     }).catch(err => {
       console.log("An error occurred while initializing: ", err)
     })
-
-    if (this.state.usePolly) {
-      polly.describeVoices({}, (err, data) => {
-        if (err)
-          console.log(err, err.stack)
-        else
-          availableVoices = data.Voices
-      })
-    }
   }
 
   resume = async () => {
@@ -129,7 +117,7 @@ class App extends Component {
   /**
    * Speaks the "line" within `item` indicated by `progress`, and then if `this.state.play` is true, calls itself to speak the next line.
    * 
-   * @param {number} [progress] - a number within [-1, 4]. By default, -1.
+   * @param {number} [progress] - a number within [-1, 3]. By default, -1.
    */
   speakLoop = async (progress = -1) => {
     let item
@@ -154,47 +142,22 @@ class App extends Component {
         await sleep(500)
         break
       case 1:
-        // if (navigator.userAgent.includes("Android")) {
-        //   await this.speak(item.Pinyin
-        //     .replace(' ', '. ')
-        //     .replace(/bi\b/g, 'bee')
-        //     .replace(/pi\b/g, 'pee')
-        //     .replace('ca', 'tsa')
-        //     .replace('you', 'yo')
-        //     .replace('rou', 'row')
-        //     .replace('yun', 'yoon')
-        //     .replace('tou', 'tow')
-        //     .replace('zh', 'j')
-        //     .replace(/he\b/g, 'her')
-        //     .replace(/ui/g, 'way')
-        //     .replace(/ei\b/g, 'ay')
-        //     .replace(/([jqx])ao/g, /$1i-ao/)
-        //     .replace(/([jqx])iang/g, /$1i-ang/)
-        //     .replace(/([jqx])iu/g, /$1i-o/)
-        //     .replace(/([jqx])ue/g, /$1u-e/)
-        //     .replace('lie', 'li-eh')
-        //   , 0.75, 'en-UK')
-        // } else {
-        //   await this.speak(item.Pinyin.replace(' ', '. '), 0.75, 'en-UK')
-        // }
-        break
-      case 2:
         await this.speak(item.Hanzi, 0.5, 'zh')
         break
-      case 3:
+      case 2:
         await this.speak(item.English, 1, 'en-US')
         break
-      case 4:
+      case 3:
         await this.speak(item.Hanzi, 0.5, 'zh-CN')
         await sleep(500)
         break
       default:
-        console.log("speakLoop called with invalid number (not in [-1, 4]")
+        console.log("speakLoop called with invalid number (not in [-1, 3]")
     }
 
     await this.setState({ progress })
     if (this.state.play)
-      await this.speakLoop(progress === 4 ? -1 : progress + 1)
+      await this.speakLoop(progress === 3 ? -1 : progress + 1)
   }
 
   componentDidMount() {
